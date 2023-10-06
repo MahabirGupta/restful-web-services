@@ -31,7 +31,7 @@ public class HelloWorldController {
 
     //    build a simple url accepting path parameters
 //    /hello-world/path-variable/{name}  {name} is a variable so it must be in braces{}
-//    /hello-world/path-variable/Mahabir //when someone send the GET request it should capture the value of the variable {name}=Mahabir
+//    /hello-world/path-variable/Mahabir //when someone send the GET request using @GetMapping  it should capture the value of the variable {name}=Mahabir
     @GetMapping(path = "/hello-world/path-variable/{name}") // hello-world and path-variable are constants and {name} is variables called path parameters
     public HelloWorldBean helloWorldPathVariable(@PathVariable String name) { //the variable name must match the name of String variable
 //        return new HelloWorldBean("Hello World! " + name);
