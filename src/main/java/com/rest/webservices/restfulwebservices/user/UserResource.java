@@ -30,7 +30,12 @@ public class UserResource {// Is a REST API
     //    GET /specific user request
     @GetMapping("/users/{id}") // to get the users from the url
     public User retrieveSelectedUser(@PathVariable int id){
-        return service.findOne(id);
+        User user = service.findOne(id);
+
+        if(user==null){
+            throw new UserNotFoundException("id:"+id);
+        }
+        return user;
     }
 
 //    Create a User
