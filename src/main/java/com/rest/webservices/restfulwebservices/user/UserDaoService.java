@@ -13,11 +13,14 @@ public class UserDaoService {
 //    Create a static list and use the UserDaoService > Static List
     private static List<User> users = new ArrayList<>(); //Currently it is an empty List
 
+//    create a counter
+    private static int usersCount = 1;
+
     //    initialise the List<User> with a set of users
     static {
-        users.add(new User(1, "Anish", LocalDate.now().minusYears(30)));
-        users.add(new User(2, "Anishkaa", LocalDate.now().minusYears(25)));
-        users.add(new User(3, "Ashish", LocalDate.now().minusYears(20)));
+        users.add(new User(usersCount++, "Anish", LocalDate.now().minusYears(30)));
+        users.add(new User(usersCount++, "Anishkaa", LocalDate.now().minusYears(25)));
+        users.add(new User(usersCount++, "Ashish", LocalDate.now().minusYears(20)));
     }
 
     //    The services that want to be included to access the database
@@ -28,6 +31,11 @@ public class UserDaoService {
     }
 
     //    save User
+    public User save(User user){
+        user.setId(usersCount++);
+        users.add(user);
+        return user;
+    }
 //    findOne() retrieve details of a Specific user
     public User findOne(int id) {
         Predicate<? super User> predicate = user -> user.getId().equals(id);

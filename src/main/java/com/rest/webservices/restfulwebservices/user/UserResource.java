@@ -1,9 +1,8 @@
 package com.rest.webservices.restfulwebservices.user;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -30,6 +29,13 @@ public class UserResource {// Is a REST API
     @GetMapping("/users/{id}") // to get the users from the url
     public User retrieveSelectedUser(@PathVariable int id){
         return service.findOne(id);
+    }
+
+//    Create a User
+//    POST /users
+    @PostMapping("/users")
+    public void createUser(@RequestBody User user){//User entity/class
+        service.save(user);
     }
 
 }
