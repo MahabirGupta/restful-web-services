@@ -56,4 +56,11 @@ public class UserResource {// Is a REST API
 
     }
 
+    //    GET /specific user request
+    @DeleteMapping("/users/{id}") // to get the users from the url
+    public void deleteSelectedUser(@PathVariable int id){
+        service.deleteById(id);
+
+    }
+
 }
