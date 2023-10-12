@@ -1,6 +1,11 @@
 package com.rest.webservices.restfulwebservices.user;
 
+//Do a static import of all the methods which are present in WebMvcLinkBuilder
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import jakarta.validation.Valid;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,15 +33,27 @@ public class UserResource {// Is a REST API
             return service.findAll();
     }
 
+//    add a link to http://localhost:8080/users
+//    To be able to create a response with data and the links we need to make use of ATS Concepts
+//    EntityModel
+//    WebMvcLinkBuilder
+
     //    GET /specific user request
+//    Wrap the User class in EntityModel
+//    A simple EntityModel wrapping a domain object and adding links to it
     @GetMapping("/users/{id}") // to get the users from the url
-    public User retrieveSelectedUser(@PathVariable int id){
+    public EntityModel<User> retrieveSelectedUser(@PathVariable int id){
         User user = service.findOne(id);
 
         if(user==null){
             throw new UserNotFoundException("id:"+id);
         }
-        return user;
+        EntityModel<User> entityModel = EntityModel.of(user);
+//        Add links to the EntityModel to return links
+//        To create links can use another utility class called WebMvcLinkBuilder
+        WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+        entityModel.add(link.withRel("all-users"));
+        return entityModel;
     }
 
 //    Create a User
