@@ -9,6 +9,7 @@ import java.util.List;
 @RestController
 public class FilteringController {
 
+//    Using Static Filtering
     @GetMapping("/filtering") //map to a URL
     public SomeBean filtering(){
 
