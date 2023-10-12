@@ -1,16 +1,20 @@
 package com.rest.webservices.restfulwebservices.filtering;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 //Instead of using @JsonIgnore on the field can also use @JsonIgnoreProperties for static filtering
-@JsonIgnoreProperties({"field1","field2"}) // it becomes an array
+//@JsonIgnoreProperties({"field1","field2"}) // it becomes an array
+
+//To use Dynamic filtering
+@JsonFilter("SomeBeanFilter")
 public class SomeBean {
 
     private String field1;
 
 //   If field2 is a password and do not want to return a password use  @JsonIgnore
-    @JsonIgnore
+//    @JsonIgnore
     private String field2;
     private String field3;
 
