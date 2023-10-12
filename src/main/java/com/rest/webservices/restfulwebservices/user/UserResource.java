@@ -39,6 +39,7 @@ public class UserResource {// Is a REST API
 //    WebMvcLinkBuilder
 
     //    GET /specific user request
+
 //    Wrap the User class in EntityModel
 //    A simple EntityModel wrapping a domain object and adding links to it
     @GetMapping("/users/{id}") // to get the users from the url
