@@ -2,6 +2,7 @@ package com.rest.webservices.restfulwebservices.user;
 
 //Do a static import of all the methods which are present in WebMvcLinkBuilder
 
+import com.rest.webservices.restfulwebservices.jpa.PostRepository;
 import com.rest.webservices.restfulwebservices.jpa.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
@@ -22,13 +23,17 @@ public class UserJpaResource {// Is a REST API
 //We want UserJpaResource to talk to a database through UserRepository
     private UserRepository repository;
 
+    //We want UserJpaResource to talk to a database through PostRepository
+    private PostRepository postRepository;
+
 //    not using UserDaoService service
 //    private UserDaoService service;
 
 //    using constructor injection
+    public UserJpaResource(UserRepository repository,PostRepository postRepository) {//UserRepository is wired in
 
-    public UserJpaResource(UserRepository repository) {//UserRepository is wired in
         this.repository = repository;
+        this.postRepository = postRepository;
     }
 
     //    Users REST API
@@ -93,6 +98,24 @@ public class UserJpaResource {// Is a REST API
         }
 
       return user.get().getPosts();
+
+    }
+    @PostMapping("/jpa/users/{id}/posts") // to get the users from the url
+    public ResponseEntity<Object> createPostForUser(@PathVariable int id, @Valid @RequestBody Post post){
+        Optional<User> user = repository.findById(id);
+
+        if(user.isEmpty()){
+            throw new UserNotFoundException("id:"+id);
+        }
+
+        post.setUser(user.get());
+        Post savedPost = postRepository.save(post);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedPost.getId()).toUri();  //set up the URL of the current request and add the id
+        //current request always comes to this URL users/.
+
+//       Return response status 201 — Created
+        return ResponseEntity.created(location).build();
+
 
     }
 }
