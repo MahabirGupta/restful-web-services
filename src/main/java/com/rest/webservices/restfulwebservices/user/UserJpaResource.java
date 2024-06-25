@@ -84,4 +84,15 @@ public class UserJpaResource {// Is a REST API
 
     }
 
+    @GetMapping("/jpa/users/{id}/posts") // to get the users from the url
+    public List<Post> retrievePostsForUser(@PathVariable int id){
+        Optional<User> user = repository.findById(id);
+
+        if(user.isEmpty()){
+            throw new UserNotFoundException("id:"+id);
+        }
+
+      return user.get().getPosts();
+
+    }
 }

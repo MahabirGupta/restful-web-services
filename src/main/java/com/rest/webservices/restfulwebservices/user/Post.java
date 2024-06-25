@@ -31,7 +31,7 @@ public class Post {
         this.description = description;
     }
 
-//    generate toString() method
+    //    generate toString() method
     @Override
     public String toString() {
         return "Post{" +
