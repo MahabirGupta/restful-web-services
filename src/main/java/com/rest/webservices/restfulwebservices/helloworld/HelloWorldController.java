@@ -28,12 +28,12 @@ public class HelloWorldController {
     //    Use @GetMapping instead of @RequestMapping
     @GetMapping(path = "/hello-world") // Do not need to specifiy the GET method
     public String returnHelloWorld() {
-        return "Hello World!";
+        return "Hello World Mahabir!";
     }
 
     @GetMapping(path = "/hello-world-bean") // Return a hello-world-bean back
     public HelloWorldBean returnHelloWorldBean() {
-        return new HelloWorldBean("Hello World!");
+        return new HelloWorldBean("Hello World JSON!");
     }
 
 //    Path Parameters are variable values in the url
