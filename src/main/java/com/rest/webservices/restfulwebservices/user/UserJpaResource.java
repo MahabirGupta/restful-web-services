@@ -21,7 +21,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 public class UserJpaResource {// Is a REST API
 //We want UserJpaResource to talk to a database through UserRepository
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     //We want UserJpaResource to talk to a database through PostRepository
     private PostRepository postRepository;
@@ -30,9 +30,9 @@ public class UserJpaResource {// Is a REST API
 //    private UserDaoService service;
 
 //    using constructor injection
-    public UserJpaResource(UserRepository repository,PostRepository postRepository) {//UserRepository is wired in
+    public UserJpaResource(UserRepository userRepository, PostRepository postRepository) {//UserRepository is wired in
 
-        this.repository = repository;
+        this.userRepository = userRepository;
         this.postRepository = postRepository;
     }
 
@@ -42,7 +42,7 @@ public class UserJpaResource {// Is a REST API
 //    GET / all users request
     @GetMapping("/jpa/users") // to get the users from the database
     public List<User> retrieveAllUsers(){
-        return repository.findAll();
+        return userRepository.findAll();
     }
 
     //    GET /specific user request
@@ -51,7 +51,7 @@ public class UserJpaResource {// Is a REST API
 //    A simple EntityModel wrapping a domain object and adding links to it
     @GetMapping("/jpa/users/{id}") // to get the users from the url
     public EntityModel<User> retrieveSelectedUser(@PathVariable int id){
-        Optional<User> user = repository.findById(id);
+        Optional<User> user = userRepository.findById(id);
 
         if(user.isEmpty()){
             throw new UserNotFoundException("id:"+id);
@@ -68,7 +68,7 @@ public class UserJpaResource {// Is a REST API
 //    POST /users
     @PostMapping("/jpa/users")
     public ResponseEntity<User> createUser(@Valid @RequestBody User user){//User entity/class
-       User savedUser = repository.save(user);
+       User savedUser = userRepository.save(user);
 
 //        Want to return an url /users/4 of the created resource
 //        There is a specific HTTP header called Location Header
@@ -85,13 +85,13 @@ public class UserJpaResource {// Is a REST API
     //    GET /specific user request
     @DeleteMapping("/jpa/users/{id}") // to get the users from the url
     public void deleteSelectedUser(@PathVariable int id){
-        repository.deleteById(id);
+        userRepository.deleteById(id);
 
     }
 
     @GetMapping("/jpa/users/{id}/posts") // to get the users from the url
     public List<Post> retrievePostsForUser(@PathVariable int id){
-        Optional<User> user = repository.findById(id);
+        Optional<User> user = userRepository.findById(id);
 
         if(user.isEmpty()){
             throw new UserNotFoundException("id:"+id);
@@ -102,7 +102,7 @@ public class UserJpaResource {// Is a REST API
     }
     @PostMapping("/jpa/users/{id}/posts") // to get the users from the url
     public ResponseEntity<Object> createPostForUser(@PathVariable int id, @Valid @RequestBody Post post){
-        Optional<User> user = repository.findById(id);
+        Optional<User> user = userRepository.findById(id);
 
         if(user.isEmpty()){
             throw new UserNotFoundException("id:"+id);
